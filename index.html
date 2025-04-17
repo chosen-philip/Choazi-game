@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choazi Chaos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: gold;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            background: darkred;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: red;
+        }
+        pre {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choazi Chaos</h1>
+        <p>Build your gangster empire, earn money, and dominate the streets!</p>
+        <button id="action-btn">Earn Money & Recruit</button>
+        <button id="heist-btn">Attempt Heist</button>
+        <pre id="game-output">Loading...</pre>
+    </div>
+
+    <script>
+        class Gangster {
+            constructor(name) {
+                this.name = name;
+                this.money = 1000;
+                this.reputation = 0;
+                this.gang = [];
+            }
+
+            earnMoney(amount) {
+                this.money += amount;
+            }
+
+            loseMoney(amount) {
+                this.money -= amount;
+            }
+
+            increaseReputation(points) {
+                this.reputation += points;
+            }
+
+            recruitMember(member) {
+                this.gang.push(member);
+            }
+
+            heist(success) {
+                if (success) {
+                    let earnings = Math.floor(Math.random() * 500) + 500;
+                    this.earnMoney(earnings);
+                    this.increaseReputation(30);
+                } else {
+                    let loss = Math.floor(Math.random() * 300) + 200;
+                    this.loseMoney(loss);
+                }
+            }
+        }
+
+        let player = new Gangster("Boss Choazi Chaos");
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const output = document.getElementById("game-output");
+            const actionBtn = document.getElementById("action-btn");
+            const heistBtn = document.getElementById("heist-btn");
+
+            function updateOutput() {
+                output.innerText = `Money: $${player.money}\nReputation: ${player.reputation}\nGang: ${player.gang.join(', ') || 'None'}`;
+            }
+            
+            actionBtn.addEventListener("click", () => {
+                player.earnMoney(200);
+                player.increaseReputation(10);
+                player.recruitMember("New Gangster");
+                updateOutput();
+            });
+            
+            heistBtn.addEventListener("click", () => {
+                let success = Math.random() > 0.4;
+                player.heist(success);
+                updateOutput();
+            });
+            
+            updateOutput();
+        });
+    </script>
+</body>
+</html>
